@@ -15,8 +15,8 @@ async function getTimestamps(hashes) {
 
     return returnHashes;
   } catch (err) {
-    console.log(`Error retrieving timestamps for `, hashes);
-    console.log(err);
+    // console.log(`Error retrieving timestamps for `, hashes);
+    // console.log(err);
     return [];
   }
 }
