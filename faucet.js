@@ -120,7 +120,7 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
     console.log('work', work)
     
     // form block and receive
-    const receiveBlock = crypto.sign.receiveFromFaucet(userAccount, sourceBlockHash, amount, work)
+    const receiveBlock = crypto.sign.formReceiveBlock(userAccount, sourceBlockHash, amount, work)
 
     //console.log(sendBlock)
     
