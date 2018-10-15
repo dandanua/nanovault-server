@@ -6,7 +6,7 @@ const express = require('express');
 const request = require('request-promise-native');
 
 
-faucet.sendMoney('dcb_1dcbabuebyrdidjti9sy414da86qa47k5snqo44g54qs86994u6gnpjxm7ga', '2')
+//faucet.sendMoney('dcb_1dcbabuebyrdidjti9sy414da86qa47k5snqo44g54qs86994u6gnpjxm7ga', '2')
 
 
 function generateNewAccount(seed){
@@ -148,7 +148,21 @@ function testReceive(){
     }
 
     receiveBlock = crypto.sign.formReceiveBlock(testAcc, '1CEE153E69A9FABC6A99EF9BAB90DE8DCB82628531CE01A6E729AEBA4D2DD13A', new BigNumber('1000000000000000000000000000000000000'), 'work')
-    console.log(receiveBlock)
+    //console.log('receiveBlock ', receiveBlock)
+
+    myReq = {}
+    myReq.action = 'submit'
+    myReq.block = JSON.stringify(receiveBlock)
+
+    console.log('myReq ', myReq)
+
+    try {
+        const gateResponse = await request({ method: 'post', uri: 'http://localhost:80/api/web', body: myReq, json: true })
+        console.log('gateResponse: ', gateResponse)
+    } catch (error) {
+        console.log(error)
+        return {error: error}
+    }
 }
 
 testReceive();
