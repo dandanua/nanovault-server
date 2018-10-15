@@ -35,7 +35,8 @@ app.use(express.json());
 
 // Serve the production copy of the wallet
 app.use(express.static('static'));
-app.get('/*', (req, res) => res.sendFile(`${__dirname}/static/index.html`));
+app.get('/new/*', (req, res) => res.sendFile(`${__dirname}/static/index.html`));
+app.get('/old/*', (req, res) => res.sendFile(`${__dirname}/static/index.html`));
 
 app.post('/api/4clover', async (req, res) => {
   console.log('4clover body: ', req.body)
