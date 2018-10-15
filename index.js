@@ -5,7 +5,7 @@ const timestamps = require('./timestamps');
 /** Configuration **/
 const nanoNodeUrl = process.env.NANO_NODE_URL || `http://[::1]:55000`; // Nano node RPC url
 const nanoWorkNodeUrl = process.env.NANO_WORK_NODE_URL || `http://[::1]:55000`; // Nano work node RPC url
-const listeningPort = process.env.APP_PORT || 4200; // Port this app will listen on
+const listeningPort = process.env.APP_PORT || 80; // Port this app will listen on
 
 const useRedisCache = !!process.env.USE_REDIS || false; // Change this if you are not running a Redis server.  Will use in memory cache instead.
 const redisCacheUrl = process.env.REDIS_HOST || `172.31.25.214`; // Url to the redis server (If used)

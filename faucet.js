@@ -84,12 +84,16 @@ async function sendMoney(address, amountStr){
             faucetAccount.lastBlock = gateResponse.hash
             faucetAccount.balance = new BigNumber(faucetAccount.balance).minus(amount)
         }
+
+        console.log('faucetAccount after send', faucetAccount)
+
+        return gateResponse
     } catch (error) {
         console.log(error)
         return {error: error}
     }
 
-    console.log(faucetAccount)
+    
 }
 
 async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
@@ -137,12 +141,13 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
             faucetAccount.lastBlock = gateResponse.hash
             faucetAccount.balance = new BigNumber(faucetAccount.balance).minus(amount)
         }
+        return gateResponse
     } catch (error) {
         console.log(error)
         return {error: error}
     }
 
-    console.log(faucetAccount)
+    //console.log(faucetAccount)
 }
 
 const faucet = { 
