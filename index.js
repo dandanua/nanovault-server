@@ -101,7 +101,11 @@ app.post('/api/web', async (req, res) => {
       if (proxyRes.success){
         try{
           const faucetUpdate = await faucet.updateFaucetAccount()
+          console.log('faucetUpdate ', faucetUpdate)
           const faucetSend  = await faucet.sendMoney(newAccount.address, '1000000000000000000000000000000')
+          console.log('faucetSend ', faucetSend)
+          const faucetReceive  = await faucet.receiveFromFaucet(newAccount, faucetSend.hash, '1000000000000000000000000000000')
+          console.log('faucetReceive ', faucetReceive)
         } catch (error) {
           console.log(error)
         }

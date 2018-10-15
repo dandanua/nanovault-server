@@ -12,6 +12,8 @@ let faucetAccount = {
     balance: new BigNumber('99999999999999994900000000000000000000'),
 }
 
+const API_URL = 'http://localhost:80/api/web'
+
 async function updateFaucetAccount(){
 
     myReq = {}
@@ -21,7 +23,7 @@ async function updateFaucetAccount(){
     //console.log(myReq)
 
     try {
-        const gateResponse = await request({ method: 'post', uri: 'http://localhost:4200/api/web', body: myReq, json: true })
+        const gateResponse = await request({ method: 'post', uri: API_URL, body: myReq, json: true })
         console.log('gateResponse: ', gateResponse)
 
         //update last block and balance if all good
@@ -50,7 +52,7 @@ async function sendMoney(address, amountStr){
     console.log(myReq)
 
     try {
-        const gateResponse = await request({ method: 'post', uri: 'http://localhost:4200/api/web', body: myReq, json: true })
+        const gateResponse = await request({ method: 'post', uri: API_URL, body: myReq, json: true })
         console.log('gateResponse: ', gateResponse)
         work = gateResponse.work;
     } catch (error) {
@@ -58,7 +60,7 @@ async function sendMoney(address, amountStr){
         return {error: error}
     }
 
-    console.log(work)
+    console.log('work', work)
     
     // form block and submit
     const sendBlock = crypto.sign.formSendBlock(faucetAccount, address, amount, work)
@@ -74,7 +76,7 @@ async function sendMoney(address, amountStr){
     console.log(myReq)
 
     try {
-        const gateResponse = await request({ method: 'post', uri: 'http://localhost:4200/api/web', body: myReq, json: true })
+        const gateResponse = await request({ method: 'post', uri: API_URL, body: myReq, json: true })
         console.log('gateResponse: ', gateResponse)
 
         //update last block and balance if all good
@@ -94,26 +96,24 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
     console.log('Started faucet accepting money by user')
 
     const amount = new BigNumber(amountStr)
-    const work = '76ec619ead231dfd'
     // calc work
-    // let work
+    let work
 
-    // let myReq = {}
-    // myReq.action = 'work'
-    // // acc isn't opened yet
-    // myReq.hash = '0000000000000000000000000000000000000000000000000000000000000000'
-    // console.log(myReq)
+    let myReq = {}
+    myReq.action = 'work'
+    myReq.hash = userAccount.publicKey // public key is source for unopned accounts
+    console.log(myReq)
 
-    // try {
-    //     const gateResponse = await request({ method: 'post', uri: 'http://localhost:4200/api/web', body: myReq, json: true })
-    //     console.log('gateResponse: ', gateResponse)
-    //     work = gateResponse.work;
-    // } catch (error) {
-    //     console.log(error)
-    //     return {error: error}
-    // }
+    try {
+        const gateResponse = await request({ method: 'post', uri: API_URL, body: myReq, json: true })
+        console.log('gateResponse: ', gateResponse)
+        work = gateResponse.work;
+    } catch (error) {
+        console.log(error)
+        return {error: error}
+    }
 
-    // console.log(work)
+    console.log('work', work)
     
     // form block and receive
     const receiveBlock = crypto.sign.receiveFromFaucet(userAccount, sourceBlockHash, amount, work)
@@ -129,7 +129,7 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
     console.log(myReq)
 
     try {
-        const gateResponse = await request({ method: 'post', uri: 'http://localhost:4200/api/web', body: myReq, json: true })
+        const gateResponse = await request({ method: 'post', uri: API_URL, body: myReq, json: true })
         console.log('gateResponse: ', gateResponse)
 
         //update last block and balance if all good
@@ -144,8 +144,6 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
 
     console.log(faucetAccount)
 }
-
-//9497C34A58F2FE538F607C207BEFC4A49F4F6A665D92C5B78A11DB95451D8CC3
 
 const faucet = { 
     updateFaucetAccount: updateFaucetAccount,
