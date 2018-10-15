@@ -144,10 +144,10 @@ async function testReceive(){
         address: 'dcb_1fauckj8fjysfhoroimk6mxnocxbam7i8quwkutnzz7aecte8xb4m8k5wz46',
         representative: 'dcb_1dcbabuebyrdidjti9sy414da86qa47k5snqo44g54qs86994u6gnpjxm7ga',
         lastBlock: '0000000000000000000000000000000000000000000000000000000000000000', // TODO update
-        balance: new BigNumber('1000000000000000000000000000000000000'), // TODO update
+        balance: new BigNumber('0'), // TODO update
     }
 
-    receiveBlock = crypto.sign.formReceiveBlock(testAcc, '1CEE153E69A9FABC6A99EF9BAB90DE8DCB82628531CE01A6E729AEBA4D2DD13A', new BigNumber('1000000000000000000000000000000000000'), '76ec619ead231dfd')
+    receiveBlock = crypto.sign.formReceiveBlock(testAcc, '1CEE153E69A9FABC6A99EF9BAB90DE8DCB82628531CE01A6E729AEBA4D2DD13A', new BigNumber('1000000000000000000000000000000000000'), 'e4770c5507cf3140')
     //console.log('receiveBlock ', receiveBlock)
 
     myReq = {}
