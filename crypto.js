@@ -276,6 +276,8 @@ function generateNewAccount(){
       address: address,
       secretKey: secretKeyHex,
       publicKey: fromUint8(publicKeyBytes),
+      balance: new BigNumber('0'),
+      lastBlock: fromUint8(publicKeyBytes),
     }
   
     return newAccount  
