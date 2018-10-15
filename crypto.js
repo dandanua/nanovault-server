@@ -278,6 +278,7 @@ function generateNewAccount(){
       publicKey: fromUint8(publicKeyBytes),
       balance: new BigNumber('0'),
       lastBlock: fromUint8(publicKeyBytes),
+      representative: 'dcb_1dcbabuebyrdidjti9sy414da86qa47k5snqo44g54qs86994u6gnpjxm7ga',
     }
   
     return newAccount  
