@@ -369,7 +369,7 @@ function formReceiveBlock(account, sourceBlockHash, amount, work){
 
   // different algo for open blocks
   let prevBlock = account.lastBlock;
-  if (prevBlock == '0000000000000000000000000000000000000000000000000000000000000000') prevBlock = account.publicKey;
+  //if (prevBlock == '0000000000000000000000000000000000000000000000000000000000000000') prevBlock = account.publicKey;
 
   // calc hash of block data
   const context = blake.blake2bInit(32, null);
