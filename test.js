@@ -137,7 +137,7 @@ function testBigNUmber2(){
 
 
 
-function testReceive(){
+async function testReceive(){
     const testAcc = {
         publicKey: '351B54A266C7D96BEB8AC27224FB4AABA944CB035F7C96F54FFCA862B4C37522',
         secretKey: '',
