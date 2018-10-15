@@ -147,7 +147,7 @@ async function testReceive(){
         balance: new BigNumber('1000000000000000000000000000000000000'), // TODO update
     }
 
-    receiveBlock = crypto.sign.formReceiveBlock(testAcc, '1CEE153E69A9FABC6A99EF9BAB90DE8DCB82628531CE01A6E729AEBA4D2DD13A', new BigNumber('1000000000000000000000000000000000000'), 'work')
+    receiveBlock = crypto.sign.formReceiveBlock(testAcc, '1CEE153E69A9FABC6A99EF9BAB90DE8DCB82628531CE01A6E729AEBA4D2DD13A', new BigNumber('1000000000000000000000000000000000000'), '76ec619ead231dfd')
     //console.log('receiveBlock ', receiveBlock)
 
     myReq = {}
