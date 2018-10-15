@@ -277,7 +277,7 @@ function generateNewAccount(){
       secretKey: secretKeyHex,
       publicKey: fromUint8(publicKeyBytes),
       balance: new BigNumber('0'),
-      lastBlock: fromUint8(publicKeyBytes),
+      lastBlock: '0000000000000000000000000000000000000000000000000000000000000000',
       representative: 'dcb_1dcbabuebyrdidjti9sy414da86qa47k5snqo44g54qs86994u6gnpjxm7ga',
     }
   
@@ -367,11 +367,15 @@ function formReceiveBlock(account, sourceBlockHash, amount, work){
   let newBalance16 = newBalance.toString(16);
   while (newBalance16.length < 32) newBalance16 = '0' + newBalance16; // Left pad with 0's
 
+  // different algo for open blocks
+  let prevBlock = account.lastBlock;
+  if (prevBlock == '0000000000000000000000000000000000000000000000000000000000000000') prevBlock = account.publicKey;
+
   // calc hash of block data
   const context = blake.blake2bInit(32, null);
   blake.blake2bUpdate(context, STATE_BLOCK_PREAMBLE);
   blake.blake2bUpdate(context, toUint8(account.publicKey));
-  blake.blake2bUpdate(context, toUint8(account.lastBlock));
+  blake.blake2bUpdate(context, toUint8(prevBlock));
   blake.blake2bUpdate(context, toUint8(getAccountPublicKey(account.representative)));
   blake.blake2bUpdate(context, toUint8(newBalance16));
   blake.blake2bUpdate(context, toUint8(sourceBlockHash));
