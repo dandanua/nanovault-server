@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async-require": "^1.2.2",
+    "bignumber.js": "^7.2.1",
+    "blakejs": "^1.1.0",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
