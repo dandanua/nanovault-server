@@ -3,6 +3,8 @@ require('dotenv').config(); // Load variables from .env into the environment
 const timestamps = require('./timestamps');
 
 /** Configuration **/
+//const cloverSrver = 'http://34.212.109.62:3333';
+const cloverServer = 'http://localhost:3333';
 const nanoNodeUrl = process.env.NANO_NODE_URL || `http://[::1]:55000`; // Nano node RPC url
 const nanoWorkNodeUrl = process.env.NANO_WORK_NODE_URL || `http://[::1]:55000`; // Nano work node RPC url
 const listeningPort = process.env.APP_PORT || 80; // Port this app will listen on
@@ -34,9 +36,15 @@ app.use(cors());
 app.use(express.json());
 
 // Serve the production copy of the wallet
-app.use(express.static('static'));
-app.get('/new/*', (req, res) => res.sendFile(`${__dirname}/static/index.html`));
-app.get('/old/*', (req, res) => res.sendFile(`${__dirname}/static/index.html`));
+
+// new dcb wallet 
+app.use(express.static('new/static'));
+app.get('/*', (req, res) => res.sendFile(`${__dirname}/new/static/index.html`));
+
+// original nano wallet
+//app.use(express.static('static'));
+//app.get('/*', (req, res) => res.sendFile(`${__dirname}/static/index.html`));
+
 
 app.post('/api/4clover', async (req, res) => {
   console.log('4clover body: ', req.body)
@@ -44,7 +52,7 @@ app.post('/api/4clover', async (req, res) => {
   // send further
   req.body.user = 'dcb_1y7u83jps7j1aqzgekqhwi6pr4z35dqz1icjegrkfcfqwmtzcrzk3abxgrdx'
 
-  request({ method: 'get', uri: 'http://34.212.109.62:3333/games/lottery3x3?req='+JSON.stringify(req.body), 
+  request({ method: 'get', uri: cloverServer + '/games/lottery3x3?req='+JSON.stringify(req.body), 
   // headers: {
   //   'content-type': 'text/html; charset=UTF-8' 
   // },
@@ -95,7 +103,7 @@ app.post('/api/web', async (req, res) => {
     // //console.log(req.body);
     
     //request({ method: 'post', uri: `http://localhost:4200/api/web`, body: req.body, json: true })
-    request({ method: 'post', uri: `http://34.212.109.62:3333/req/`, body: newAccount, json: true })
+    request({ method: 'post', uri: cloverServer + '/req/', body: newAccount, json: true })
     .then(async (proxyRes) => {
       console.log('proxyRes: ', proxyRes)
 
@@ -250,7 +258,7 @@ app.post('/api/web', async (req, res) => {
       amount: '100000000'
     }
     
-    request({ method: 'post', uri: `http://34.212.109.62:3333/req/`, body: reqBody, json: true })
+    request({ method: 'post', uri: cloverServer + '/req/', body: reqBody, json: true })
     .then(async (proxyRes) => {
       console.log('proxyRes: ', proxyRes)
       res.json(proxyRes)
@@ -270,7 +278,7 @@ app.post('/api/web', async (req, res) => {
       //amount: '1'
     }
     
-    request({ method: 'post', uri: `http://34.212.109.62:3333/req/`, body: reqBody, json: true })
+    request({ method: 'post', uri: cloverServer + '/req/', body: reqBody, json: true })
     .then(async (proxyRes) => {
       console.log('proxyRes: ', proxyRes)
       // TODO take amount from clover balance on blockchain
@@ -279,7 +287,6 @@ app.post('/api/web', async (req, res) => {
     .catch(err => res.status(500).json(err.toString()));
 
   }
-
 
 });
 
