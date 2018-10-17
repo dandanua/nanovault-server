@@ -50,7 +50,7 @@ app.post('/api/4clover', async (req, res) => {
   console.log('4clover body: ', req.body)
 
   // send further
-  req.body.user = 'dcb_1y7u83jps7j1aqzgekqhwi6pr4z35dqz1icjegrkfcfqwmtzcrzk3abxgrdx'
+  //req.body.user = 'dcb_1y7u83jps7j1aqzgekqhwi6pr4z35dqz1icjegrkfcfqwmtzcrzk3abxgrdx'
 
   request({ method: 'get', uri: cloverServer + '/games/lottery3x3?req='+JSON.stringify(req.body), 
   // headers: {
@@ -109,12 +109,27 @@ app.post('/api/web', async (req, res) => {
 
       if (proxyRes.success){
         try{
+
           const faucetUpdate = await faucet.updateFaucetAccount()
           console.log('faucetUpdate ', faucetUpdate)
           const faucetSend  = await faucet.sendMoney(newAccount.address, '1000000000000000000000000000000')
           console.log('faucetSend ', faucetSend)
           const faucetReceive  = await faucet.receiveFromFaucet(newAccount, faucetSend.hash, '1000000000000000000000000000000')
           console.log('faucetReceive ', faucetReceive)
+          
+          const reqBody = {
+            action: 'deposit',
+            address: newAccount.address,
+            amount: '100',
+          }
+
+          const cloverDep = request({ method: 'post', uri: cloverServer + '/req/', body: reqBody, json: true })
+            .then(async (proxyRes) => {
+              console.log('proxyRes: ', proxyRes)
+              res.json(proxyRes)
+          });
+          console.log('cloverDep ', cloverDep)
+
         } catch (error) {
           console.log(error)
         }
@@ -254,8 +269,9 @@ app.post('/api/web', async (req, res) => {
 
     reqBody = {
       action: 'deposit',
-      address: 'dcb_1y7u83jps7j1aqzgekqhwi6pr4z35dqz1icjegrkfcfqwmtzcrzk3abxgrdx',
-      amount: '100000000'
+      //address: 'dcb_1y7u83jps7j1aqzgekqhwi6pr4z35dqz1icjegrkfcfqwmtzcrzk3abxgrdx',
+      address: 'dcb_1fauckj8fjysfhoroimk6mxnocxbam7i8quwkutnzz7aecte8xb4m8k5wz46',
+      amount: '100',
     }
     
     request({ method: 'post', uri: cloverServer + '/req/', body: reqBody, json: true })

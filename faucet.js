@@ -105,7 +105,9 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
 
     let myReq = {}
     myReq.action = 'work'
-    myReq.hash = userAccount.publicKey // public key is source for unopned accounts
+    myReq.hash = userAccount.lastBlock
+    if (myReq.hash == '0000000000000000000000000000000000000000000000000000000000000000') 
+        myReq.hash = userAccount.publicKey // public key is source for unopened accounts
     console.log(myReq)
 
     try {
@@ -122,9 +124,6 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
     // form block and receive
     const receiveBlock = crypto.sign.formReceiveBlock(userAccount, sourceBlockHash, amount, work)
 
-    //console.log(sendBlock)
-    
-    //return
 
     myReq = {}
     myReq.action = 'submit'
@@ -137,9 +136,10 @@ async function receiveFromFaucet(userAccount, sourceBlockHash, amountStr){
         console.log('gateResponse: ', gateResponse)
 
         //update last block and balance if all good
+        // not needed?
         if (gateResponse.hash){
-            faucetAccount.lastBlock = gateResponse.hash
-            faucetAccount.balance = new BigNumber(faucetAccount.balance).minus(amount)
+            userAccount.lastBlock = gateResponse.hash
+            userAccount.balance = new BigNumber(userAccount.balance).plus(amount)
         }
         return gateResponse
     } catch (error) {
